@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Batch extends Model
+{
+    protected $fillable = [
+        'name',
+        'total_class',
+        'duration',
+        'type',
+    ];
+
+    public function classSessions(): HasMany
+    {
+        return $this->hasMany(ClassSession::class, 'batch_id');
+    }
+}

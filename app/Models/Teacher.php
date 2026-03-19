@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Teacher extends Model
+{
+    protected $fillable = [
+        'name',
+        'designation',
+        'subject_id',
+        'mobile',
+        'image',
+        'status',
+    ];
+
+    public function subject(): BelongsTo
+    {
+        return $this->belongsTo(Subject::class);
+    }
+
+    public function classSessions(): HasMany
+    {
+        return $this->hasMany(ClassSession::class, 'teacher_id');
+    }
+}
