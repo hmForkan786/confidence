@@ -22,7 +22,11 @@ class BranchManagementResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'BranchManagement';
+    protected static ?string $recordTitleAttribute = 'date';
+
+    protected static ?string $navigationLabel = 'Branch Management';
+
+    protected static ?string $modelLabel = 'Branch Management';
 
     public static function form(Schema $schema): Schema
     {

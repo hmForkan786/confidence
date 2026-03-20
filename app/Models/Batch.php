@@ -21,4 +21,5 @@ class Batch extends Model
     {
         return $this->hasMany(ClassSession::class, 'batch_id');
     }
+
 }

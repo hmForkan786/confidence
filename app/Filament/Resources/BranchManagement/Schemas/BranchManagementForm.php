@@ -2,9 +2,13 @@
 
 namespace App\Filament\Resources\BranchManagement\Schemas;
 
+use App\Models\BranchManagement;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 class BranchManagementForm
@@ -15,53 +19,62 @@ class BranchManagementForm
             ->components([
                 Select::make('branch_id')
                     ->relationship('branch', 'name')
-                    ->required(),
+                    ->required()
+                    ->live(),
                 DatePicker::make('date')
-                    ->required(),
-                TextInput::make('today_admission')
                     ->required()
-                    ->numeric()
-                    ->default(0),
+                    ->live(),
                 TextInput::make('opening_balance')
+                    ->label('Opening Balance')
                     ->required()
                     ->numeric()
-                    ->default(0.0),
-                TextInput::make('today_total_income')
-                    ->required()
-                    ->numeric()
-                    ->default(0.0),
-                TextInput::make('bank_deposit')
-                    ->required()
-                    ->numeric()
-                    ->default(0.0),
-                TextInput::make('total_expense')
-                    ->required()
-                    ->numeric()
-                    ->default(0.0),
-                TextInput::make('penalty_collected')
-                    ->required()
-                    ->numeric()
-                    ->default(0.0),
-                TextInput::make('cash_in_hand')
-                    ->required()
-                    ->numeric()
-                    ->default(0.0),
-                TextInput::make('foundation_count')
+                    ->default(0.0)
+                    ->live(),
+                TextInput::make('today_admission')
+                    ->label('Today Admission')
                     ->required()
                     ->numeric()
                     ->default(0),
-                TextInput::make('preli_count')
+                TextInput::make('today_bank_deposit')
+                    ->label('Today Bank Deposit')
                     ->required()
                     ->numeric()
-                    ->default(0),
-                TextInput::make('preli_online_count')
-                    ->required()
+                    ->default(0.0)
+                    ->live(),
+                TextInput::make('penalty')
+                    ->label('Penalty')
                     ->numeric()
-                    ->default(0),
-                TextInput::make('exam_count')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
+                    ->default(0.0)
+                    ->live(),
+                Textarea::make('remark')
+                    ->label('Remark')
+                    ->rows(3),
+                Placeholder::make('today_income')
+                    ->label('Today Income')
+                    ->content(fn (Get $get) => number_format(
+                        BranchManagement::calculateTodayIncome($get('branch_id'), $get('date')),
+                        2
+                    )),
+                Placeholder::make('today_expense')
+                    ->label('Today Expense')
+                    ->content(fn (Get $get) => number_format(
+                        BranchManagement::calculateTodayExpense($get('branch_id'), $get('date')),
+                        2
+                    )),
+                Placeholder::make('cash_in_hand')
+                    ->label('Cash in Hand')
+                    ->content(function (Get $get) {
+                        $opening = (float) ($get('opening_balance') ?? 0);
+                        $income = BranchManagement::calculateTodayIncome($get('branch_id'), $get('date'));
+                        $penalty = (float) ($get('penalty') ?? 0);
+                        $expense = BranchManagement::calculateTodayExpense($get('branch_id'), $get('date'));
+                        $bankDeposit = (float) ($get('today_bank_deposit') ?? 0);
+
+                        return number_format($opening + $income + $penalty - $expense - $bankDeposit, 2);
+                    }),
+                Placeholder::make('batch_student_summaries')
+                    ->label('Batch Student Summary')
+                    ->content(fn () => BranchManagement::getBatchStudentSummaryText()),
             ]);
     }
 }

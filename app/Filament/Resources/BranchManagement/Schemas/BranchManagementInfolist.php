@@ -16,27 +16,32 @@ class BranchManagementInfolist
                 TextEntry::make('date')
                     ->date(),
                 TextEntry::make('today_admission')
+                    ->label('Today Admission')
                     ->numeric(),
                 TextEntry::make('opening_balance')
+                    ->label('Opening Balance')
                     ->numeric(),
-                TextEntry::make('today_total_income')
+                TextEntry::make('today_income')
+                    ->label('Today Income')
                     ->numeric(),
-                TextEntry::make('bank_deposit')
+                TextEntry::make('today_expense')
+                    ->label('Today Expense')
                     ->numeric(),
-                TextEntry::make('total_expense')
+                TextEntry::make('today_bank_deposit')
+                    ->label('Today Bank Deposit')
                     ->numeric(),
-                TextEntry::make('penalty_collected')
+                TextEntry::make('penalty')
+                    ->label('Penalty')
                     ->numeric(),
                 TextEntry::make('cash_in_hand')
+                    ->label('Cash in Hand')
                     ->numeric(),
-                TextEntry::make('foundation_count')
-                    ->numeric(),
-                TextEntry::make('preli_count')
-                    ->numeric(),
-                TextEntry::make('preli_online_count')
-                    ->numeric(),
-                TextEntry::make('exam_count')
-                    ->numeric(),
+                TextEntry::make('remark')
+                    ->label('Remark')
+                    ->placeholder('-'),
+                TextEntry::make('batch_student_summaries_text')
+                    ->label('Batch Student Summary')
+                    ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),
