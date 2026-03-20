@@ -24,7 +24,20 @@ class BatchesTable
                 TextColumn::make('duration')
                     ->searchable(),
                 TextColumn::make('type')
-                    ->badge(),
+                    ->badge()
+                    ->formatStateUsing(function (?string $state): ?string {
+                        if ($state === null) {
+                            return null;
+                        }
+
+                        return [
+                            'offline_exam' => 'Offline exam',
+                            'offline_regular' => 'Offline regular',
+                            'online_regular' => 'Online regular',
+                            'online_exam' => 'Online exam',
+                            'offline_online' => 'Offline+Online',
+                        ][$state] ?? $state;
+                    }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

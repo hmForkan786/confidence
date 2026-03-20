@@ -23,15 +23,32 @@ class TransfersTable
                     ->searchable(),
                 TextColumn::make('toBatch.name')
                     ->searchable(),
-                TextColumn::make('old_roll')
+                TextColumn::make('from_branch_roll')
+                    ->label('From branch roll')
                     ->searchable(),
-                TextColumn::make('new_roll')
+                TextColumn::make('to_branch_roll')
+                    ->label('To branch roll')
                     ->searchable(),
-                TextColumn::make('old_mr_no')
+                TextColumn::make('from_branch_amount')
+                    ->label('From branch amount')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('to_branch_amount')
+                    ->label('To branch amount')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('from_batch_old_roll')
+                    ->label('From batch old roll')
                     ->searchable(),
-                TextColumn::make('new_mr_no')
+                TextColumn::make('to_batch_new_roll')
+                    ->label('To batch new roll')
                     ->searchable(),
-                TextColumn::make('amount')
+                TextColumn::make('from_batch_old_amount')
+                    ->label('From batch old amount')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('to_batch_new_amount')
+                    ->label('To batch new amount')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

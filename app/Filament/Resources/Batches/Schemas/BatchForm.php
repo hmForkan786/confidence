@@ -25,6 +25,7 @@ class BatchForm
             'offline_regular' => 'Offline regular',
             'online_regular' => 'Online regular',
             'online_exam' => 'Online exam',
+            'offline_online' => 'Offline+Online',
         ])
                     ->required(),
             ]);

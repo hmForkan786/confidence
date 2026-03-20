@@ -14,8 +14,18 @@ class ExpenseInfolist
             ->components([
                 TextEntry::make('branch.name')
                     ->label('Branch'),
-                TextEntry::make('source')
-                    ->badge(),
+                TextEntry::make('entries')
+                    ->label('Source')
+                    ->formatStateUsing(static function (?array $state): string {
+                        if (blank($state)) {
+                            return '-';
+                        }
+
+                        return collect($state)
+                            ->pluck('source')
+                            ->filter()
+                            ->join(', ');
+                    }),
                 TextEntry::make('category'),
                 TextEntry::make('description')
                     ->columnSpanFull(),
@@ -27,9 +37,6 @@ class ExpenseInfolist
                     ->columnSpanFull(),
                 TextEntry::make('date')
                     ->date(),
-                TextEntry::make('entries')
-                    ->placeholder('-')
-                    ->columnSpanFull(),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

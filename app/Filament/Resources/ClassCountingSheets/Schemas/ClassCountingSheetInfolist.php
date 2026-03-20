@@ -19,8 +19,9 @@ class ClassCountingSheetInfolist
                     ->label('Subject'),
                 TextEntry::make('batch.name')
                     ->label('Batch'),
-                TextEntry::make('timeSlot.id')
-                    ->label('Time slot'),
+                TextEntry::make('timeSlot.time')
+                    ->label('Time slot')
+                    ->time('h:i A'),
                 TextEntry::make('class_count')
                     ->numeric(),
                 TextEntry::make('topic'),

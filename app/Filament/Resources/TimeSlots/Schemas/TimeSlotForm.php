@@ -12,6 +12,8 @@ class TimeSlotForm
         return $schema
             ->components([
                 TimePicker::make('time')
+                    ->seconds(false)
+                    ->displayFormat('h:i A')
                     ->required(),
             ]);
     }

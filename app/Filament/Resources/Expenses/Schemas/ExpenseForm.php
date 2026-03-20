@@ -4,6 +4,8 @@ namespace App\Filament\Resources\Expenses\Schemas;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -18,9 +20,16 @@ class ExpenseForm
                 Select::make('branch_id')
                     ->relationship('branch', 'name')
                     ->required(),
-                Select::make('source')
-                    ->options(['teacher_rent' => 'Teacher rent', 'other' => 'Other'])
-                    ->required(),
+                Hidden::make('source')
+                    ->default('other'),
+                Repeater::make('entries')
+                    ->label('Source')
+                    ->schema([
+                        TextInput::make('source')
+                            ->required(),
+                    ])
+                    ->defaultItems(1)
+                    ->columnSpanFull(),
                 TextInput::make('category')
                     ->required(),
                 Textarea::make('description')
@@ -37,9 +46,6 @@ class ExpenseForm
                     ->columnSpanFull(),
                 DatePicker::make('date')
                     ->required(),
-                Textarea::make('entries')
-                    ->default(null)
-                    ->columnSpanFull(),
             ]);
     }
 }

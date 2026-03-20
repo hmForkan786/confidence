@@ -18,8 +18,18 @@ class ExpensesTable
             ->columns([
                 TextColumn::make('branch.name')
                     ->searchable(),
-                TextColumn::make('source')
-                    ->badge(),
+                TextColumn::make('entries')
+                    ->label('Source')
+                    ->formatStateUsing(static function (?array $state): string {
+                        if (blank($state)) {
+                            return '-';
+                        }
+
+                        return collect($state)
+                            ->pluck('source')
+                            ->filter()
+                            ->join(', ');
+                    }),
                 TextColumn::make('category')
                     ->searchable(),
                 TextColumn::make('amount')

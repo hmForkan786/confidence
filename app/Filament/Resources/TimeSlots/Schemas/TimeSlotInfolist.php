@@ -12,7 +12,7 @@ class TimeSlotInfolist
         return $schema
             ->components([
                 TextEntry::make('time')
-                    ->time(),
+                    ->time('h:i A'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

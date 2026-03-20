@@ -16,7 +16,7 @@ class TimeSlotsTable
         return $table
             ->columns([
                 TextColumn::make('time')
-                    ->time()
+                    ->time('h:i A')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

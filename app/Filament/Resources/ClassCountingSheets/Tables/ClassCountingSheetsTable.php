@@ -24,7 +24,9 @@ class ClassCountingSheetsTable
                     ->searchable(),
                 TextColumn::make('batch.name')
                     ->searchable(),
-                TextColumn::make('timeSlot.id')
+                TextColumn::make('timeSlot.time')
+                    ->label('Time slot')
+                    ->time('h:i A')
                     ->searchable(),
                 TextColumn::make('class_count')
                     ->numeric()

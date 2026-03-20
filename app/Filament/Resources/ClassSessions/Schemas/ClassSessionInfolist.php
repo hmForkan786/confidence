@@ -17,8 +17,9 @@ class ClassSessionInfolist
                     ->label('Teacher'),
                 TextEntry::make('batch.name')
                     ->label('Batch'),
-                TextEntry::make('timeSlot.id')
-                    ->label('Time slot'),
+                TextEntry::make('timeSlot.time')
+                    ->label('Time slot')
+                    ->time('h:i A'),
                 TextEntry::make('subject.name')
                     ->label('Subject'),
                 TextEntry::make('lecture_no')

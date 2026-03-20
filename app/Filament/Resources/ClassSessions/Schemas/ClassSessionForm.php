@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Carbon;
 
 class ClassSessionForm
 {
@@ -24,7 +25,10 @@ class ClassSessionForm
                     ->relationship('batch', 'name')
                     ->required(),
                 Select::make('time_slot_id')
-                    ->relationship('timeSlot', 'id')
+                    ->relationship('timeSlot', 'time')
+                    ->getOptionLabelFromRecordUsing(
+                        static fn ($record): string => Carbon::parse($record->time)->format('h:i A')
+                    )
                     ->required(),
                 Select::make('subject_id')
                     ->relationship('subject', 'name')
