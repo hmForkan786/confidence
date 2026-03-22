@@ -8,6 +8,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Carbon;
+use Filament\Schemas\Components\Section;
 
 class ClassCountingSheetForm
 {
@@ -15,6 +16,10 @@ class ClassCountingSheetForm
     {
         return $schema
             ->components([
+                Section::make('Class Counting Sheet ')
+      ->columns(4)
+      ->columnSpanFull()
+      ->schema([
                 DatePicker::make('date')
                     ->required(),
                 Select::make('teacher_id')
@@ -40,6 +45,7 @@ class ClassCountingSheetForm
                 Textarea::make('remark')
                     ->default(null)
                     ->columnSpanFull(),
-            ]);
+            ])
+    ]);
     }
 }

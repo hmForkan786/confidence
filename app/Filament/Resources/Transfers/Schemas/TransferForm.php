@@ -14,7 +14,7 @@ class TransferForm
     {
         return $schema
             ->components([
-                Section::make('Section One')
+                Section::make('Transfer form (Branch to Branch)')
                     ->schema([
                         Select::make('from_branch_id')
                             ->relationship('fromBranch', 'name')
@@ -47,8 +47,9 @@ class TransferForm
                             ->default(null)
                             ->columnSpanFull(),
                     ])
-                    ->columns(3),
-                Section::make('Section Two')
+                    ->columns(4)
+                    ->columnSpanFull(),
+                Section::make('Transfer form (Batch to Batch)')
                     ->schema([
                         Select::make('from_batch_id')
                             ->relationship('fromBatch', 'name')
@@ -81,7 +82,8 @@ class TransferForm
                             ->default(null)
                             ->columnSpanFull(),
                     ])
-                    ->columns(3),
+                    ->columns(4)
+                    ->columnSpanFull(),
             ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\TimeSlots\Schemas;
 
 use Filament\Forms\Components\TimePicker;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class TimeSlotForm
@@ -11,10 +12,15 @@ class TimeSlotForm
     {
         return $schema
             ->components([
-                TimePicker::make('time')
-                    ->seconds(false)
-                    ->displayFormat('h:i A')
-                    ->required(),
+                Section::make('Time Slot Session')
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->schema([
+                        TimePicker::make('time')
+                            ->seconds(false)
+                            ->displayFormat('h:i A')
+                            ->required(),
+                    ]),
             ]);
     }
 }

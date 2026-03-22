@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Teachers\Schemas;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class TeacherForm
@@ -13,21 +14,26 @@ class TeacherForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->required(),
-                TextInput::make('designation')
-                    ->required(),
-                Select::make('subject_id')
-                    ->relationship('subject', 'name')
-                    ->required(),
-                TextInput::make('mobile')
-                    ->required(),
-                FileUpload::make('image')
-                    ->image(),
-                Select::make('status')
-                    ->options(['active' => 'Active', 'inactive' => 'Inactive'])
-                    ->default('active')
-                    ->required(),
+                Section::make('Teacher Session')
+                    ->columns(3)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextInput::make('name')
+                            ->required(),
+                        TextInput::make('designation')
+                            ->required(),
+                        Select::make('subject_id')
+                            ->relationship('subject', 'name')
+                            ->required(),
+                        TextInput::make('mobile')
+                            ->required(),
+                        FileUpload::make('image')
+                            ->image(),
+                        Select::make('status')
+                            ->options(['active' => 'Active', 'inactive' => 'Inactive'])
+                            ->default('active')
+                            ->required(),
+                    ]),
             ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Bankings\Schemas;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class BankingForm
@@ -12,15 +13,20 @@ class BankingForm
     {
         return $schema
             ->components([
-                TextInput::make('bank_title')
-                    ->required(),
-                TextInput::make('bank_name')
-                    ->required(),
-                TextInput::make('account_no')
-                    ->required(),
-                Textarea::make('remark')
-                    ->default(null)
-                    ->columnSpanFull(),
+                Section::make('Banking')
+                    ->columns(3)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextInput::make('bank_title')
+                            ->required(),
+                        TextInput::make('bank_name')
+                            ->required(),
+                        TextInput::make('account_no')
+                            ->required(),
+                        Textarea::make('remark')
+                            ->default(null)
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 }

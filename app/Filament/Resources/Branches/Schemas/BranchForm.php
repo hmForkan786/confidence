@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Branches\Schemas;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class BranchForm
@@ -12,19 +13,24 @@ class BranchForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->required(),
-                TextInput::make('code')
-                    ->required(),
-                TextInput::make('address')
-                    ->required(),
-                TextInput::make('phone')
-                    ->tel()
-                    ->required(),
-                Select::make('status')
-                    ->options(['active' => 'Active', 'inactive' => 'Inactive'])
-                    ->default('active')
-                    ->required(),
+                Section::make('Branch')
+                    ->columns(4)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextInput::make('name')
+                            ->required(),
+                        TextInput::make('code')
+                            ->required(),
+                        TextInput::make('address')
+                            ->required(),
+                        TextInput::make('phone')
+                            ->tel()
+                            ->required(),
+                        Select::make('status')
+                            ->options(['active' => 'Active', 'inactive' => 'Inactive'])
+                            ->default('active')
+                            ->required(),
+                    ]),
             ]);
     }
 }
