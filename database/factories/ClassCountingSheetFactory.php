@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Batch;
+use App\Models\Branch;
 use App\Models\ClassCountingSheet;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -17,6 +18,7 @@ class ClassCountingSheetFactory extends Factory
     {
         return [
             'date' => $this->faker->date(),
+            'branch_id' => Branch::factory(),
             'teacher_id' => Teacher::factory(),
             'subject_id' => Subject::factory(),
             'batch_id' => Batch::factory(),

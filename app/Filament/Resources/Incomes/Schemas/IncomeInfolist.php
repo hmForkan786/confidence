@@ -11,17 +11,7 @@ class IncomeInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('branch.name')
-                    ->label('Branch'),
-                TextEntry::make('source')
-                    ->badge(),
-                TextEntry::make('amount')
-                    ->numeric(),
-                TextEntry::make('date')
-                    ->date(),
-                TextEntry::make('entries')
-                    ->placeholder('-')
-                    ->columnSpanFull(),
+                TextEntry::make('name'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

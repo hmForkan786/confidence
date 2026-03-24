@@ -6,7 +6,6 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -16,29 +15,8 @@ class ExpensesTable
     {
         return $table
             ->columns([
-                TextColumn::make('branch.name')
+                TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('entries')
-                    ->label('Source')
-                    ->formatStateUsing(static function (?array $state): string {
-                        if (blank($state)) {
-                            return '-';
-                        }
-
-                        return collect($state)
-                            ->pluck('source')
-                            ->filter()
-                            ->join(', ');
-                    }),
-                TextColumn::make('category')
-                    ->searchable(),
-                TextColumn::make('amount')
-                    ->numeric()
-                    ->sortable(),
-                ImageColumn::make('receipt_image'),
-                TextColumn::make('date')
-                    ->date()
-                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -15,16 +15,8 @@ class IncomesTable
     {
         return $table
             ->columns([
-                TextColumn::make('branch.name')
+                TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('source')
-                    ->badge(),
-                TextColumn::make('amount')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('date')
-                    ->date()
-                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

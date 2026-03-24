@@ -24,9 +24,4 @@ class Teacher extends Model
     {
         return $this->belongsTo(Subject::class);
     }
-
-    public function classSessions(): HasMany
-    {
-        return $this->hasMany(ClassSession::class, 'teacher_id');
-    }
 }

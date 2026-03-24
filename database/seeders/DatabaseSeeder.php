@@ -5,11 +5,7 @@ namespace Database\Seeders;
 use App\Models\Banking;
 use App\Models\Batch;
 use App\Models\Branch;
-use App\Models\BranchManagement;
 use App\Models\ClassCountingSheet;
-use App\Models\ClassSession;
-use App\Models\Expense;
-use App\Models\Income;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\TimeSlot;
@@ -35,17 +31,6 @@ class DatabaseSeeder extends Seeder
         $batches = Batch::factory()->count(5)->create();
         $timeSlots = TimeSlot::factory()->count(5)->create();
 
-        ClassSession::factory()
-            ->count(5)
-            ->state(fn () => [
-                'branch_id' => $branches->random()->id,
-                'teacher_id' => $teachers->random()->id,
-                'batch_id' => $batches->random()->id,
-                'time_slot_id' => $timeSlots->random()->id,
-                'subject_id' => $subjects->random()->id,
-            ])
-            ->create();
-
         ClassCountingSheet::factory()
             ->count(5)
             ->state(fn () => [
@@ -56,22 +41,7 @@ class DatabaseSeeder extends Seeder
             ])
             ->create();
 
-        Income::factory()
-            ->count(5)
-            ->state(fn () => ['branch_id' => $branches->random()->id])
-            ->create();
-
-        Expense::factory()
-            ->count(5)
-            ->state(fn () => ['branch_id' => $branches->random()->id])
-            ->create();
-
         Banking::factory()->count(5)->create();
-
-        BranchManagement::factory()
-            ->count(5)
-            ->state(fn () => ['branch_id' => $branches->random()->id])
-            ->create();
 
         Transfer::factory()
             ->count(5)

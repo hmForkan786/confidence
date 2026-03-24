@@ -12,6 +12,7 @@ class ClassCountingSheet extends Model
 
     protected $fillable = [
         'date',
+        'branch_id',
         'teacher_id',
         'subject_id',
         'batch_id',
@@ -28,6 +29,11 @@ class ClassCountingSheet extends Model
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
     }
 
     public function subject(): BelongsTo

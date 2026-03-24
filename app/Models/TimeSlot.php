@@ -14,8 +14,4 @@ class TimeSlot extends Model
         'time',
     ];
 
-    public function classSessions(): HasMany
-    {
-        return $this->hasMany(ClassSession::class, 'time_slot_id');
-    }
 }

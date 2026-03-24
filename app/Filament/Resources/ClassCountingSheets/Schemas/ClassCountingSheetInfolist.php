@@ -13,6 +13,8 @@ class ClassCountingSheetInfolist
             ->components([
                 TextEntry::make('date')
                     ->date(),
+                TextEntry::make('branch.name')
+                    ->label('Branch'),
                 TextEntry::make('teacher.name')
                     ->label('Teacher'),
                 TextEntry::make('subject.name')

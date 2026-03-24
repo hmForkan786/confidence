@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\ClassCountingSheets\Tables;
+namespace App\Filament\Resources\DailyReportings\Tables;
 
+use App\Models\DailyReporting;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -9,7 +10,7 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ClassCountingSheetsTable
+class DailyReportingsTable
 {
     public static function configure(Table $table): Table
     {
@@ -21,21 +22,34 @@ class ClassCountingSheetsTable
                 TextColumn::make('branch.name')
                     ->label('Branch')
                     ->searchable(),
-                TextColumn::make('teacher.name')
-                    ->searchable(),
-                TextColumn::make('subject.name')
-                    ->searchable(),
                 TextColumn::make('batch.name')
+                    ->label('Batch')
                     ->searchable(),
-                TextColumn::make('timeSlot.time')
-                    ->label('Time slot')
-                    ->time('h:i A')
-                    ->searchable(),
-                TextColumn::make('class_count')
+                TextColumn::make('admission')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('topic')
-                    ->searchable(),
+                TextColumn::make('opening_balance')
+                    ->label('Opening Balance')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('total_income')
+                    ->label('Total Income')
+                    ->state(fn (DailyReporting $record) => $record->total_income)
+                    ->formatStateUsing(fn ($state) => number_format((float) $state, 2))
+                    ->sortable(),
+                TextColumn::make('total_expense')
+                    ->label('Total Expense')
+                    ->state(fn (DailyReporting $record) => $record->total_expense)
+                    ->formatStateUsing(fn ($state) => number_format((float) $state, 2))
+                    ->sortable(),
+                TextColumn::make('bank_deposit_amount')
+                    ->label('Bank Deposit')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('cash_in_hand')
+                    ->label('Cash in Hand')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -44,9 +58,6 @@ class ClassCountingSheetsTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
             ])
             ->recordActions([
                 ViewAction::make(),

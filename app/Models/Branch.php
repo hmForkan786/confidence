@@ -18,23 +18,9 @@ class Branch extends Model
         'status',
     ];
 
-    public function incomes(): HasMany
+    public function classCountingSheets(): HasMany
     {
-        return $this->hasMany(Income::class);
+        return $this->hasMany(ClassCountingSheet::class);
     }
 
-    public function expenses(): HasMany
-    {
-        return $this->hasMany(Expense::class);
-    }
-
-    public function classSessions(): HasMany
-    {
-        return $this->hasMany(ClassSession::class, 'branch_id');
-    }
-
-    public function branchManagements(): HasMany
-    {
-        return $this->hasMany(BranchManagement::class);
-    }
 }

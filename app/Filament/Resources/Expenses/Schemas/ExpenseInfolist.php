@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Expenses\Schemas;
 
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -12,31 +11,7 @@ class ExpenseInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('branch.name')
-                    ->label('Branch'),
-                TextEntry::make('entries')
-                    ->label('Source')
-                    ->formatStateUsing(static function (?array $state): string {
-                        if (blank($state)) {
-                            return '-';
-                        }
-
-                        return collect($state)
-                            ->pluck('source')
-                            ->filter()
-                            ->join(', ');
-                    }),
-                TextEntry::make('category'),
-                TextEntry::make('description')
-                    ->columnSpanFull(),
-                TextEntry::make('amount')
-                    ->numeric(),
-                ImageEntry::make('receipt_image'),
-                TextEntry::make('remark')
-                    ->placeholder('-')
-                    ->columnSpanFull(),
-                TextEntry::make('date')
-                    ->date(),
+                TextEntry::make('name'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

@@ -18,9 +18,4 @@ class Subject extends Model
     {
         return $this->hasMany(Teacher::class);
     }
-
-    public function classSessions(): HasMany
-    {
-        return $this->hasMany(ClassSession::class, 'subject_id');
-    }
 }

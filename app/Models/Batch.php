@@ -17,9 +17,4 @@ class Batch extends Model
         'type',
     ];
 
-    public function classSessions(): HasMany
-    {
-        return $this->hasMany(ClassSession::class, 'batch_id');
-    }
-
 }

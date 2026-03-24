@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 class TransferForm
@@ -14,7 +15,18 @@ class TransferForm
     {
         return $schema
             ->components([
+                Select::make('transfer_type')
+                    ->label('Transfer Type')
+                    ->options([
+                        'branch_to_branch' => 'Branch to Branch',
+                        'batch_to_batch' => 'Batch to Batch',
+                    ])
+                    ->default('branch_to_branch')
+                    ->required()
+                    ->live()
+                    ->columnSpanFull(),
                 Section::make('Transfer form (Branch to Branch)')
+                    ->visible(fn (Get $get) => $get('transfer_type') === 'branch_to_branch')
                     ->schema([
                         Select::make('from_branch_id')
                             ->relationship('fromBranch', 'name')
@@ -23,21 +35,17 @@ class TransferForm
                             ->relationship('toBranch', 'name')
                             ->required(),
                         TextInput::make('from_branch_roll')
-                            ->label('From branch roll no')
-                            ->required(),
+                            ->label('From branch roll no'),
                         TextInput::make('from_branch_mr_no')
-                            ->label('From branch MR no')
-                            ->required(),
+                            ->label('From branch MR no'),
                         TextInput::make('from_branch_amount')
                             ->label('From branch amount')
                             ->required()
                             ->numeric(),
                         TextInput::make('to_branch_roll')
-                            ->label('To branch roll no')
-                            ->required(),
+                            ->label('To branch roll no'),
                         TextInput::make('to_branch_mr_no')
-                            ->label('To branch MR no')
-                            ->required(),
+                            ->label('To branch MR no'),
                         TextInput::make('to_branch_amount')
                             ->label('To branch amount')
                             ->required()
@@ -50,6 +58,7 @@ class TransferForm
                     ->columns(4)
                     ->columnSpanFull(),
                 Section::make('Transfer form (Batch to Batch)')
+                    ->visible(fn (Get $get) => $get('transfer_type') === 'batch_to_batch')
                     ->schema([
                         Select::make('from_batch_id')
                             ->relationship('fromBatch', 'name')
@@ -58,21 +67,17 @@ class TransferForm
                             ->relationship('toBatch', 'name')
                             ->required(),
                         TextInput::make('from_batch_old_roll')
-                            ->label('From batch old roll no')
-                            ->required(),
+                            ->label('From batch old roll no'),
                         TextInput::make('from_batch_old_mr_no')
-                            ->label('From batch old MR no')
-                            ->required(),
+                            ->label('From batch old MR no'),
                         TextInput::make('from_batch_old_amount')
                             ->label('From batch old amount')
                             ->required()
                             ->numeric(),
                         TextInput::make('to_batch_new_roll')
-                            ->label('To batch new roll no')
-                            ->required(),
+                            ->label('To batch new roll no'),
                         TextInput::make('to_batch_new_mr_no')
-                            ->label('To batch new MR no')
-                            ->required(),
+                            ->label('To batch new MR no'),
                         TextInput::make('to_batch_new_amount')
                             ->label('To batch new amount')
                             ->required()
