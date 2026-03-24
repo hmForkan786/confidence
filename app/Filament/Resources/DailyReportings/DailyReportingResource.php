@@ -20,7 +20,7 @@ class DailyReportingResource extends Resource
 {
     protected static ?string $model = DailyReporting::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocument;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
 
     protected static ?string $recordTitleAttribute = 'date';
 

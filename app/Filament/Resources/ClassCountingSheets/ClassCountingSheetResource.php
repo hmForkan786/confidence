@@ -20,7 +20,7 @@ class ClassCountingSheetResource extends Resource
 {
     protected static ?string $model = ClassCountingSheet::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalculator;
 
     protected static ?string $recordTitleAttribute = 'ClassCountingSheet';
 
