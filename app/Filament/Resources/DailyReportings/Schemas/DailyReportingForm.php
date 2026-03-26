@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\DailyReportings\Schemas;
 
+use App\Models\Batch;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -31,30 +33,66 @@ class DailyReportingForm
                             ->required()
                             ->searchable()
                             ->preload(),
+                        Hidden::make('batch_id')
+                            ->dehydrated()
+                            ->dehydrateStateUsing(function (Get $get) {
+                                $items = $get('admission_items') ?? [];
+
+                                $batchIds = collect($items)
+                                    ->pluck('batch_id')
+                                    ->filter()
+                                    ->unique()
+                                    ->values();
+
+                                if ($batchIds->count() === 1) {
+                                    return $batchIds->first();
+                                }
+
+                                return null;
+                            }),
                         Repeater::make('admission_items')
                             ->label('Admission')
                             ->schema([
                                 Select::make('batch_id')
                                     ->label('Batch')
-                                    ->options(fn () => DB::table('batches')->orderBy('name')->pluck('name', 'id'))
+                                    ->options(fn () => Batch::query()->orderBy('name')->pluck('name', 'id'))
+                                    ->required()
                                     ->searchable()
-                                    ->required(),
-                                TextInput::make('amount')
-                                    ->label('Admission')
+                                    ->preload(),
+                                TextInput::make('count')
+                                    ->label('Student Count')
                                     ->numeric()
+                                    ->minValue(0)
                                     ->default(0)
                                     ->required(),
                             ])
                             ->columns(2)
                             ->defaultItems(0)
                             ->columnSpanFull(),
+                        Hidden::make('admission')
+                            ->dehydrated()
+                            ->default(fn ($record) => $record?->admission ?? 0)
+                            ->dehydrateStateUsing(function (Get $get) {
+                                $items = $get('admission_items') ?? [];
+
+                                if (empty($items)) {
+                                    return (float) ($get('admission') ?? 0);
+                                }
+
+                                return collect($items)->sum(fn ($item) => (float) ($item['count'] ?? $item['amount'] ?? 0));
+                            }),
                         Placeholder::make('total_admission')
                             ->label('Total Admission')
                             ->content(function (Get $get) {
                                 $items = $get('admission_items') ?? [];
-                                $total = collect($items)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
 
-                                return number_format($total, 2);
+                                if (empty($items)) {
+                                    return number_format((float) ($get('admission') ?? 0), 0);
+                                }
+
+                                $total = collect($items)->sum(fn ($item) => (float) ($item['count'] ?? $item['amount'] ?? 0));
+
+                                return number_format($total, 0);
                             }),
                         TextInput::make('opening_balance')
                             ->label('Opening Balance')
@@ -129,23 +167,37 @@ class DailyReportingForm
                             ->imagePreviewHeight(120)
                             ->downloadable()
                             ->openable(),
-                        TextInput::make('cash_in_hand')
-                            ->label('Cash in Hand')
-                            ->numeric()
-                            ->default(0),
+                        Hidden::make('cash_in_hand')
+                            ->dehydrated()
+                            ->dehydrateStateUsing(function (Get $get) {
+                                $opening = (float) ($get('opening_balance') ?? 0);
+                                $bankDeposit = (float) ($get('bank_deposit_amount') ?? 0);
+                                $admissionItems = $get('admission_items') ?? [];
+                                $admission = empty($admissionItems)
+                                    ? (float) ($get('admission') ?? 0)
+                                    : collect($admissionItems)->sum(fn ($item) => (float) ($item['count'] ?? $item['amount'] ?? 0));
+                                $incomeItems = $get('income_items') ?? [];
+                                $expenseItems = $get('expense_items') ?? [];
+                                $incomeTotal = collect($incomeItems)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
+                                $expenseTotal = collect($expenseItems)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
+
+                                return $opening + $admission + $incomeTotal - $expenseTotal - $bankDeposit;
+                            }),
                         Placeholder::make('calculated_cash_in_hand')
                             ->label('Calculated Cash in Hand')
                             ->content(function (Get $get) {
                                 $opening = (float) ($get('opening_balance') ?? 0);
                                 $bankDeposit = (float) ($get('bank_deposit_amount') ?? 0);
                                 $admissionItems = $get('admission_items') ?? [];
+                                $admission = empty($admissionItems)
+                                    ? (float) ($get('admission') ?? 0)
+                                    : collect($admissionItems)->sum(fn ($item) => (float) ($item['count'] ?? $item['amount'] ?? 0));
                                 $incomeItems = $get('income_items') ?? [];
                                 $expenseItems = $get('expense_items') ?? [];
-                                $admissionTotal = collect($admissionItems)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
                                 $incomeTotal = collect($incomeItems)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
                                 $expenseTotal = collect($expenseItems)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
 
-                                return number_format($opening + $admissionTotal + $incomeTotal - $expenseTotal - $bankDeposit, 2);
+                                return number_format($opening + $admission + $incomeTotal - $expenseTotal - $bankDeposit, 2);
                             }),
                     ]),
             ]);

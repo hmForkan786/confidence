@@ -6,6 +6,7 @@ use App\Filament\Resources\ClassCountingSheets\ClassCountingSheetResource;
 use App\Models\ClassCountingSheet;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class CreateClassCountingSheet extends CreateRecord
@@ -24,9 +25,11 @@ class CreateClassCountingSheet extends CreateRecord
 
         return DB::transaction(function () use ($data, $items): ClassCountingSheet {
             $firstRecord = null;
+            $groupKey = (string) Str::uuid();
 
             foreach ($items as $item) {
                 $record = ClassCountingSheet::create([
+                    'group_key' => $groupKey,
                     'date' => $data['date'] ?? null,
                     'branch_id' => $data['branch_id'] ?? null,
                     'teacher_id' => $item['teacher_id'] ?? null,

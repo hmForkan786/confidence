@@ -21,6 +21,11 @@ class BatchesTable
                 TextColumn::make('total_class')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('total_admission')
+                    ->label('Admission Count')
+                    ->state(fn ($record) => $record->total_admission)
+                    ->formatStateUsing(fn ($state) => number_format((float) $state, 0))
+                    ->sortable(),
                 TextColumn::make('status')
                     ->badge()
                     ->formatStateUsing(function (?string $state): ?string {

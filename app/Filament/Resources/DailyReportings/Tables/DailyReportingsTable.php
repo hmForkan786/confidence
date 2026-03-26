@@ -22,11 +22,13 @@ class DailyReportingsTable
                 TextColumn::make('branch.name')
                     ->label('Branch')
                     ->searchable(),
-                TextColumn::make('batch.name')
-                    ->label('Batch')
-                    ->searchable(),
-                TextColumn::make('admission')
-                    ->numeric()
+                TextColumn::make('batch_names')
+                    ->label('Batches')
+                    ->state(fn (DailyReporting $record) => $record->batch_names),
+                TextColumn::make('total_admission')
+                    ->label('Admission Count')
+                    ->state(fn (DailyReporting $record) => $record->total_admission)
+                    ->formatStateUsing(fn ($state) => number_format((float) $state, 0))
                     ->sortable(),
                 TextColumn::make('opening_balance')
                     ->label('Opening Balance')

@@ -11,6 +11,7 @@ class ClassCountingSheet extends Model
     use HasFactory;
 
     protected $fillable = [
+        'group_key',
         'date',
         'branch_id',
         'teacher_id',
@@ -50,4 +51,19 @@ class ClassCountingSheet extends Model
     {
         return $this->belongsTo(TimeSlot::class);
     }
+
+
+    public function getTotalClassAttribute(): int
+    {
+        $query = self::query();
+
+        if (!empty($this->group_key)) {
+            $query->where('group_key', $this->group_key);
+        } else {
+            $query->whereKey($this->getKey());
+        }
+
+        return (int) $query->sum('class_count');
+    }
+
 }

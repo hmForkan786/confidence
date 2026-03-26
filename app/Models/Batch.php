@@ -15,6 +15,18 @@ class Batch extends Model
         'total_class',
         'status',
         'type',
+        'admission_items',
     ];
 
+    protected $casts = [
+        'admission_items' => 'array',
+    ];
+
+    public function getTotalAdmissionAttribute(): float
+    {
+        $items = $this->admission_items ?? [];
+
+        return collect($items)
+            ->sum(fn ($item) => (float) ($item['count'] ?? 0));
+    }
 }

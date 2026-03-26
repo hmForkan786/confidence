@@ -31,7 +31,9 @@ class ClassCountingSheetsTable
                     ->label('Time slot')
                     ->time('h:i A')
                     ->searchable(),
-                TextColumn::make('class_count')
+                TextColumn::make('total_class')
+                    ->label('Total Class')
+                    ->state(fn ($record) => $record->total_class)
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('topic')
