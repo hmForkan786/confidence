@@ -22,7 +22,9 @@ class BatchForm
                         TextInput::make('total_class')
                             ->required()
                             ->numeric(),
-                        TextInput::make('duration')
+                        Select::make('status')
+                            ->options(['active' => 'Active', 'inactive' => 'Inactive'])
+                            ->default('active')
                             ->required(),
                         Select::make('type')
                             ->options([

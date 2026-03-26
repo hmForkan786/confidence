@@ -14,7 +14,18 @@ class BatchInfolist
                 TextEntry::make('name'),
                 TextEntry::make('total_class')
                     ->numeric(),
-                TextEntry::make('duration'),
+                TextEntry::make('status')
+                    ->badge()
+                    ->formatStateUsing(function (?string $state): ?string {
+                        if ($state === null) {
+                            return null;
+                        }
+
+                        return [
+                            'active' => 'Active',
+                            'inactive' => 'Inactive',
+                        ][$state] ?? $state;
+                    }),
                 TextEntry::make('type')
                     ->badge()
                     ->formatStateUsing(function (?string $state): ?string {

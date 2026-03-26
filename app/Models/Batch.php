@@ -13,7 +13,7 @@ class Batch extends Model
     protected $fillable = [
         'name',
         'total_class',
-        'duration',
+        'status',
         'type',
     ];
 

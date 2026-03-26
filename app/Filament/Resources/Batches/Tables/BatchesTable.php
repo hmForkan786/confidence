@@ -21,8 +21,18 @@ class BatchesTable
                 TextColumn::make('total_class')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('duration')
-                    ->searchable(),
+                TextColumn::make('status')
+                    ->badge()
+                    ->formatStateUsing(function (?string $state): ?string {
+                        if ($state === null) {
+                            return null;
+                        }
+
+                        return [
+                            'active' => 'Active',
+                            'inactive' => 'Inactive',
+                        ][$state] ?? $state;
+                    }),
                 TextColumn::make('type')
                     ->badge()
                     ->formatStateUsing(function (?string $state): ?string {

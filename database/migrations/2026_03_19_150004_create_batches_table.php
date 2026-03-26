@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('total_class');
-            $table->string('duration');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->enum('type', ['offline_exam', 'offline_regular', 'online_regular', 'online_exam', 'offline_online']);
             $table->timestamps();
         });
