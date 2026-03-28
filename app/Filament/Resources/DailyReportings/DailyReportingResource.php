@@ -11,6 +11,7 @@ use App\Filament\Resources\DailyReportings\Schemas\DailyReportingInfolist;
 use App\Filament\Resources\DailyReportings\Tables\DailyReportingsTable;
 use App\Models\DailyReporting;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -21,6 +22,8 @@ class DailyReportingResource extends Resource
     protected static ?string $model = DailyReporting::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Create Report';
 
     protected static ?string $recordTitleAttribute = 'date';
 
@@ -56,4 +59,5 @@ class DailyReportingResource extends Resource
         ];
     }
 }
+
 

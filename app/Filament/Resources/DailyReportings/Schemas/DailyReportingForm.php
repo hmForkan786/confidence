@@ -82,7 +82,7 @@ class DailyReportingForm
                                 return collect($items)->sum(fn ($item) => (float) ($item['count'] ?? $item['amount'] ?? 0));
                             }),
                         Placeholder::make('total_admission')
-                            ->label('Total Admission')
+                            ->label('Admission Count')
                             ->content(function (Get $get) {
                                 $items = $get('admission_items') ?? [];
 
@@ -172,32 +172,24 @@ class DailyReportingForm
                             ->dehydrateStateUsing(function (Get $get) {
                                 $opening = (float) ($get('opening_balance') ?? 0);
                                 $bankDeposit = (float) ($get('bank_deposit_amount') ?? 0);
-                                $admissionItems = $get('admission_items') ?? [];
-                                $admission = empty($admissionItems)
-                                    ? (float) ($get('admission') ?? 0)
-                                    : collect($admissionItems)->sum(fn ($item) => (float) ($item['count'] ?? $item['amount'] ?? 0));
                                 $incomeItems = $get('income_items') ?? [];
                                 $expenseItems = $get('expense_items') ?? [];
                                 $incomeTotal = collect($incomeItems)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
                                 $expenseTotal = collect($expenseItems)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
 
-                                return $opening + $admission + $incomeTotal - $expenseTotal - $bankDeposit;
+                                return $opening + $incomeTotal - $expenseTotal - $bankDeposit;
                             }),
                         Placeholder::make('calculated_cash_in_hand')
                             ->label('Calculated Cash in Hand')
                             ->content(function (Get $get) {
                                 $opening = (float) ($get('opening_balance') ?? 0);
                                 $bankDeposit = (float) ($get('bank_deposit_amount') ?? 0);
-                                $admissionItems = $get('admission_items') ?? [];
-                                $admission = empty($admissionItems)
-                                    ? (float) ($get('admission') ?? 0)
-                                    : collect($admissionItems)->sum(fn ($item) => (float) ($item['count'] ?? $item['amount'] ?? 0));
                                 $incomeItems = $get('income_items') ?? [];
                                 $expenseItems = $get('expense_items') ?? [];
                                 $incomeTotal = collect($incomeItems)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
                                 $expenseTotal = collect($expenseItems)->sum(fn ($item) => (float) ($item['amount'] ?? 0));
 
-                                return number_format($opening + $admission + $incomeTotal - $expenseTotal - $bankDeposit, 2);
+                                return number_format($opening + $incomeTotal - $expenseTotal - $bankDeposit, 2);
                             }),
                     ]),
             ]);

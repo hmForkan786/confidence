@@ -11,6 +11,7 @@ use App\Filament\Resources\Incomes\Schemas\IncomeInfolist;
 use App\Filament\Resources\Incomes\Tables\IncomesTable;
 use App\Models\Income;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -21,6 +22,8 @@ class IncomeResource extends Resource
     protected static ?string $model = Income::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowTrendingUp;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Create Report';
 
     protected static ?string $recordTitleAttribute = 'Income';
 
@@ -56,3 +59,4 @@ class IncomeResource extends Resource
         ];
     }
 }
+

@@ -11,6 +11,7 @@ use App\Filament\Resources\Subjects\Schemas\SubjectInfolist;
 use App\Filament\Resources\Subjects\Tables\SubjectsTable;
 use App\Models\Subject;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -21,6 +22,8 @@ class SubjectResource extends Resource
     protected static ?string $model = Subject::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Administrator';
 
     protected static ?string $recordTitleAttribute = 'Subject';
 

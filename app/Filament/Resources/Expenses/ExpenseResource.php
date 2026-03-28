@@ -11,6 +11,7 @@ use App\Filament\Resources\Expenses\Schemas\ExpenseInfolist;
 use App\Filament\Resources\Expenses\Tables\ExpensesTable;
 use App\Models\Expense;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -21,6 +22,8 @@ class ExpenseResource extends Resource
     protected static ?string $model = Expense::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowTrendingDown;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Create Report';
 
     protected static ?string $recordTitleAttribute = 'Expense';
 
@@ -56,3 +59,4 @@ class ExpenseResource extends Resource
         ];
     }
 }
+

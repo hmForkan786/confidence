@@ -11,6 +11,7 @@ use App\Filament\Resources\Branches\Schemas\BranchInfolist;
 use App\Filament\Resources\Branches\Tables\BranchesTable;
 use App\Models\Branch;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -21,6 +22,8 @@ class BranchResource extends Resource
     protected static ?string $model = Branch::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Administrator';
 
     protected static ?string $recordTitleAttribute = 'Branch';
 

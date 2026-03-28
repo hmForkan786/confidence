@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\ClassCountingSheets\Schemas;
 
 use App\Models\ClassCountingSheet;
-use Illuminate\Support\Carbon;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -23,10 +23,9 @@ class ClassCountingSheetInfolist
                     ->label('Subject'),
                 TextEntry::make('batch.name')
                     ->label('Batch'),
-                TextEntry::make('timeSlot.time')
-                    ->label('Time slot')
-                    ->time('h:i A'),
-                TextEntry::make('lecture_details')
+                TextEntry::make('time_slot_names')
+                    ->label('Time slot'),
+                RepeatableEntry::make('lecture_details')
                     ->label('Lecture Details')
                     ->state(function (ClassCountingSheet $record) {
                         $query = ClassCountingSheet::query()
@@ -42,25 +41,36 @@ class ClassCountingSheetInfolist
                         $records = $query->get();
 
                         if ($records->isEmpty()) {
-                            return '-';
+                            return [];
                         }
 
-                        $lines = $records->map(function (ClassCountingSheet $item) {
-                            $batch = $item->batch?->name ?? 'Unknown';
-                            $subject = $item->subject?->name ?? 'Unknown';
-                            $teacher = $item->teacher?->name ?? 'Unknown';
-                            $time = $item->timeSlot?->time
-                                ? Carbon::parse($item->timeSlot->time)->format('h:i A')
-                                : 'Unknown';
-                            $count = (int) ($item->class_count ?? 0);
-                            $topic = $item->topic ?: '-';
-
-                            return $batch . ' | ' . $subject . ' | ' . $teacher . ' | ' . $time . ' | ' . $count . ' | ' . $topic;
+                        return $records->map(function (ClassCountingSheet $item) {
+                            return [
+                                'batch' => $item->batch?->name ?? 'Unknown',
+                                'subject' => $item->subject?->name ?? 'Unknown',
+                                'teacher' => $item->teacher?->name ?? 'Unknown',
+                                'time' => $item->time_slot_names,
+                                'count' => (int) ($item->class_count ?? 0),
+                                'topic' => $item->topic ?: '-',
+                            ];
                         })->all();
-
-                        return implode('<br>', $lines);
                     })
-                    ->html(),
+                    ->schema([
+                        TextEntry::make('batch')
+                            ->label('Batch'),
+                        TextEntry::make('subject')
+                            ->label('Subject'),
+                        TextEntry::make('teacher')
+                            ->label('Teacher'),
+                        TextEntry::make('time')
+                            ->label('Time'),
+                        TextEntry::make('count')
+                            ->label('Class Count'),
+                        TextEntry::make('topic')
+                            ->label('Topic'),
+                    ])
+                    ->columns(3)
+                    ->columnSpanFull(),
                 TextEntry::make('total_class')
                     ->label('Total Class')
                     ->state(fn ($record) => $record->total_class)

@@ -28,6 +28,11 @@ class CreateClassCountingSheet extends CreateRecord
             $groupKey = (string) Str::uuid();
 
             foreach ($items as $item) {
+                $timeSlotIds = collect($item['time_slot_ids'] ?? [])
+                    ->filter()
+                    ->values()
+                    ->all();
+
                 $record = ClassCountingSheet::create([
                     'group_key' => $groupKey,
                     'date' => $data['date'] ?? null,
@@ -35,7 +40,8 @@ class CreateClassCountingSheet extends CreateRecord
                     'teacher_id' => $item['teacher_id'] ?? null,
                     'subject_id' => $item['subject_id'] ?? null,
                     'batch_id' => $item['batch_id'] ?? null,
-                    'time_slot_id' => $item['time_slot_id'] ?? null,
+                    'time_slot_id' => $timeSlotIds[0] ?? null,
+                    'time_slot_ids' => $timeSlotIds,
                     'class_count' => $item['class_count'] ?? null,
                     'topic' => $item['lecture'] ?? null,
                     'remark' => $data['remark'] ?? null,

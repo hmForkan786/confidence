@@ -11,6 +11,7 @@ use App\Filament\Resources\Batches\Schemas\BatchInfolist;
 use App\Filament\Resources\Batches\Tables\BatchesTable;
 use App\Models\Batch;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -21,6 +22,8 @@ class BatchResource extends Resource
     protected static ?string $model = Batch::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQueueList;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Administrator';
 
     protected static ?string $recordTitleAttribute = 'Batch';
 
